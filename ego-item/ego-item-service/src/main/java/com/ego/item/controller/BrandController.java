@@ -2,11 +2,13 @@ package com.ego.item.controller;
 
 import com.ego.common.pojo.PageResult;
 import com.ego.item.pojo.Brand;
+import com.ego.item.service.BrandService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 〈〉
@@ -21,20 +23,30 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/brand")
 public class BrandController {
 
-   // http://api.ego.com/api/item/brand/page?pageNo=1&pageSize=5&descending=false&sortBy=name&totalItems=0
+
+    @Autowired
+    private BrandService brandService;
+
     @GetMapping("/page")
     public ResponseEntity<PageResult<Brand>> page(
             @RequestParam(value = "pageNo",defaultValue = "1")Integer page,
             @RequestParam(value = "pageSize",defaultValue = "5")Integer pageSize,
             @RequestParam(value = "descending",defaultValue = "true")Boolean descending,
-            @RequestParam(value = "sortBy")String sortBy
+            @RequestParam(value = "sortBy")String sortBy,
+            @RequestParam(value = "key")String key
     )
     {
-//        PageResult<Brand> result = brandService.page(page, pageSize, descending, sortBy);
-//        if(result==null||result.getItems().size()==0)
-//        {
-//            return ResponseEntity.notFound().build();
-//        }
-        return ResponseEntity.ok(null);
+        PageResult<Brand> result = brandService.page(page, pageSize, descending, sortBy,key);
+        if(result==null||result.getItems().size()==0)
+        {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(result);
+    }
+
+    @PostMapping
+    public ResponseEntity<Void> save(Brand brand, @RequestParam("cids") List<Long> cids) {
+        brandService.save(brand, cids);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

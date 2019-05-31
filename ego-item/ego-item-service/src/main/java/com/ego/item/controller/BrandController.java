@@ -49,4 +49,19 @@ public class BrandController {
         brandService.save(brand, cids);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+
+//    http://api.ego.com/api/item/brand/cid/76
+    @GetMapping("/cid/{cid}")
+    public ResponseEntity<List<Brand>> queryListByCid(
+            @PathVariable(value = "cid")Long cid
+    )
+    {
+        List<Brand> result = brandService.queryListByCid(cid);
+        if(result==null)
+        {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(result);
+    }
 }

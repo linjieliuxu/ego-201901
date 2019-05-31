@@ -4,6 +4,7 @@ import com.ego.item.mapper.CategoryMapper;
 import com.ego.item.pojo.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
@@ -28,5 +29,15 @@ public class CategoryService {
         category.setParentId(parentId);
 
         return  categoryMapper.select(category);
+    }
+
+    public List<Category> queryCategegoryListByBid(Long bid) {
+
+        return categoryMapper.queryCategegoryListByBid(bid);
+    }
+
+    public List<Category> getListByCids(List<Long> cids) {
+//        new Example(Category.class).createCriteria().andIn("cid", cids);
+        return categoryMapper.selectByIdList(cids);
     }
 }

@@ -1,8 +1,12 @@
 package com.ego.upload.service;
 
+import com.github.tobato.fastdfs.domain.StorePath;
+import com.github.tobato.fastdfs.service.FastFileStorageClient;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,6 +33,8 @@ public class UploadService {
     // 支持的文件类型
     private static final List<String> suffixes = Arrays.asList("image/png", "image/jpeg");
 
+    @Autowired
+    private FastFileStorageClient fastFileStorageClient;
     public String upload(MultipartFile file) {
 
         //检查图片文件类型
@@ -57,12 +63,20 @@ public class UploadService {
             dir.mkdirs();
         }
 
+//        try {
+////            file.transferTo(new File("d://images/",file.getOriginalFilename()));
+////
+////        } catch (IOException e) {
+////            e.printStackTrace();
+////        }
+        String fullPath = null;
+        String ext = StringUtils.substringAfterLast(file.getOriginalFilename(), ".");
         try {
-            file.transferTo(new File("d://images/",file.getOriginalFilename()));
-
+            StorePath storePath = fastFileStorageClient.uploadFile(file.getInputStream(), file.getSize(), ext, null);
+            fullPath=storePath.getFullPath();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "http://image.ego.com/"+file.getOriginalFilename();
+        return "http://image.ego.com/"+fullPath;
     }
 }

@@ -67,4 +67,12 @@ public class BrandService {
             }
         }
     }
+
+    public Brand getById(Long brandId) {
+        return brandMapper.selectByPrimaryKey(brandId);
+    }
+
+    public List<Brand> queryListByCid(Long cid) {
+        return brandMapper.queryListByCid(cid);
+    }
 }

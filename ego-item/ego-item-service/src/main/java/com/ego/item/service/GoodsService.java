@@ -6,10 +6,7 @@ import com.ego.item.mapper.SkuMapper;
 import com.ego.item.mapper.SpuDetailsMapper;
 import com.ego.item.mapper.SpuMapper;
 import com.ego.item.mapper.StockMapper;
-import com.ego.item.pojo.Brand;
-import com.ego.item.pojo.Category;
-import com.ego.item.pojo.Spu;
-import com.ego.item.pojo.Stock;
+import com.ego.item.pojo.*;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.apache.commons.lang3.StringUtils;
@@ -117,5 +114,20 @@ public class GoodsService {
             });
         }
 
+    }
+
+    /**
+     * 根据spuId查询出对应skuList
+     * @param spuId
+     * @return
+     */
+    public List<Sku> querySkuListBySpuId(Long spuId) {
+        Sku sku = new Sku();
+        sku.setSpuId(spuId);
+        return skuMapper.select(sku);
+    }
+
+    public SpuDetail querySpuDetailBySpuId(Long spuId) {
+        return spuDetailMapper.selectByPrimaryKey(spuId);
     }
 }

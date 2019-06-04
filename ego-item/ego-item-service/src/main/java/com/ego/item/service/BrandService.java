@@ -75,4 +75,8 @@ public class BrandService {
     public List<Brand> queryListByCid(Long cid) {
         return brandMapper.queryListByCid(cid);
     }
+
+    public Brand queryBrandByBid(Long bid) {
+        return brandMapper.selectByPrimaryKey(bid);
+    }
 }

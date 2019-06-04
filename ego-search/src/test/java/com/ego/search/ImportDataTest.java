@@ -66,7 +66,8 @@ public class ImportDataTest {
                 //spuBo --> goods
                 Goods goods = searchService.buildGoods(spuBO);
 
-                goodsList.add(goods);
+                if(goods!=null)
+                    goodsList.add(goods);
             });
 
             goodsRespository.saveAll(goodsList);

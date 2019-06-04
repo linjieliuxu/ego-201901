@@ -29,4 +29,7 @@ public interface BrandApi {
     );
     @GetMapping("/bid/{bid}")
     public ResponseEntity<Brand> queryBrandByBid(@PathVariable("bid") Long bid);
+
+    @GetMapping("/list")
+    public ResponseEntity<List<Brand>> queryBrandListByIds(@RequestParam("brandIds")List<Long> brandIds);
 }

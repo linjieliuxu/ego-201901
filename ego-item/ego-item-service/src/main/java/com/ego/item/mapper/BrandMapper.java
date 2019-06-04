@@ -5,11 +5,12 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import tk.mybatis.mapper.additional.idlist.SelectByIdListMapper;
 
 import java.util.List;
 
 @Mapper
-public interface BrandMapper extends tk.mybatis.mapper.common.Mapper<Brand> {
+public interface BrandMapper extends tk.mybatis.mapper.common.Mapper<Brand> , SelectByIdListMapper<Brand,Long> {
     /**
      * 保存品牌和类别的关系
      * @param cid

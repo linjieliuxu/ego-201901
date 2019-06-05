@@ -29,4 +29,12 @@ public interface BrandApi {
     );
     @GetMapping("/bid/{bid}")
     public ResponseEntity<Brand> queryBrandByBid(@PathVariable("bid") Long bid);
+
+    /**
+     * 根据品牌ids查询品牌列表
+     * @param ids 品牌ids
+     * @return
+     */
+    @GetMapping("/list")
+    public ResponseEntity<List<Brand>> queryListByIds(@RequestParam("ids")List<Long> ids);
 }

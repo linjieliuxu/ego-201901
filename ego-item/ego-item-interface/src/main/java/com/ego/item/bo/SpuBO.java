@@ -5,6 +5,7 @@ import com.ego.item.pojo.Spu;
 import com.ego.item.pojo.SpuDetail;
 import lombok.Data;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,4 +24,11 @@ public class SpuBO extends Spu {
 
     private List<Sku> skus;
     private SpuDetail spuDetail;
+
+    public SpuBO() {
+    }
+
+    public SpuBO(Long brandId, Long cid1, Long cid2, Long cid3, String title, String subTitle, Boolean saleable, Boolean valid, Date createTime, Date lastUpdateTime) {
+        super(brandId, cid1, cid2, cid3, title, subTitle, saleable, valid, createTime, lastUpdateTime);
+    }
 }

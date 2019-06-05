@@ -6,6 +6,7 @@ import com.ego.item.pojo.Sku;
 import com.ego.item.pojo.SpuDetail;
 import com.ego.item.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -78,4 +79,18 @@ public class GoodsController {
         return ResponseEntity.ok(result);
     }
 
+
+    /**
+     * 根据id查询商品
+     * @param id
+     * @return
+     */
+    @GetMapping("/spubo/{id}")
+    public ResponseEntity<SpuBO> queryGoodsById(@PathVariable("id") Long id){
+        SpuBO spuBo=this.goodsService.queryGoodsById(id);
+        if (spuBo == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(spuBo);
+    }
 }

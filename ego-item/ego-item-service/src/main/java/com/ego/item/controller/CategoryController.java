@@ -52,4 +52,15 @@ public class CategoryController {
         }
         return ResponseEntity.ok(StringUtils.join(cnameList,","));
     }
+
+
+    @GetMapping("/list/cid")
+    public ResponseEntity<List<Category>> queryCategoryByIds(@RequestParam("cids")List<Long> ids){
+        List<Category> result = categoryService.getListByCids(ids);
+        if (result == null || result.size() == 0) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(result);
+
+    }
 }

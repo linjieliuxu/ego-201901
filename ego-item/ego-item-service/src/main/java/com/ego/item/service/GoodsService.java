@@ -130,4 +130,30 @@ public class GoodsService {
     public SpuDetail querySpuDetailBySpuId(Long spuId) {
         return spuDetailMapper.selectByPrimaryKey(spuId);
     }
+
+    /**
+     * 根据id查询商品信息
+     * @param id
+     * @return
+     */
+    public SpuBO queryGoodsById(Long id) {
+        /**
+         * 第一页所需信息如下：
+         * 1.商品的分类信息、所属品牌、商品标题、商品卖点（子标题）
+         * 2.商品的包装清单、售后服务
+         */
+        Spu spu = spuMapper.selectByPrimaryKey(id);
+        SpuDetail spuDetail = spuDetailMapper.selectByPrimaryKey(id);
+
+        //根据spuid查询出所有的sku以及stock
+        List<Sku> skus = skuMapper.selectBySpuId(id);
+
+        SpuBO result = new SpuBO(spu.getBrandId(),spu.getCid1(),spu.getCid2(),spu.getCid3(),spu.getTitle(),
+                spu.getSubTitle(),spu.getSaleable(),spu.getValid(),spu.getCreateTime(),spu.getLastUpdateTime());
+        
+        result.setSkus(skus);
+        result.setSpuDetail(spuDetail);
+
+        return result;
+    }
 }

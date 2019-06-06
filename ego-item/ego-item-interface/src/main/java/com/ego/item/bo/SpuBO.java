@@ -23,4 +23,6 @@ public class SpuBO extends Spu {
 
     private List<Sku> skus;
     private SpuDetail spuDetail;
+
+
 }

@@ -1,4 +1,4 @@
-package com.ego.common.pojo;
+package com.ego.common.utils;
 
 import org.apache.commons.lang3.StringUtils;
 

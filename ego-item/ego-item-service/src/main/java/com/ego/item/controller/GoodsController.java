@@ -78,4 +78,17 @@ public class GoodsController {
         return ResponseEntity.ok(result);
     }
 
+
+    @GetMapping("/spuBo/{spuId}")
+    public ResponseEntity<SpuBO> queryGoodsById(@PathVariable("spuId") Long spuId)
+    {
+        SpuBO result = goodsService.queryGoodsById(spuId);
+
+        if(result==null)
+        {
+            return  ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(result);
+    }
 }

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.net.CacheRequest;
 import java.util.List;
 
 
@@ -22,4 +23,7 @@ public interface CategoryApi {
 
     @GetMapping("/cnames")
     public ResponseEntity<String> queryNamesByCids(@RequestParam("cids") List<Long> cids);
+
+    @GetMapping("/list/cid")
+    public ResponseEntity<List<Category>> queryCategoryByIds(@RequestParam("cids") List<Long> cids);
 }

@@ -1,6 +1,6 @@
 package com.ego.search.service;
 
-import com.ego.common.pojo.NumberUtils;
+import com.ego.common.utils.NumberUtils;
 import com.ego.common.pojo.PageResult;
 import com.ego.item.bo.SpuBO;
 import com.ego.item.pojo.Brand;
@@ -29,10 +29,8 @@ import org.elasticsearch.search.aggregations.bucket.terms.LongTerms;
 import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
 import org.elasticsearch.search.aggregations.metrics.stats.InternalStats;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
-import org.springframework.data.elasticsearch.core.ResultsExtractor;
 import org.springframework.data.elasticsearch.core.aggregation.AggregatedPage;
 import org.springframework.data.elasticsearch.core.query.FetchSourceFilter;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
@@ -268,7 +266,7 @@ public class SearchService {
 
             //3.字符-->terms聚合
             NativeSearchQueryBuilder searchQueryBuilder= new NativeSearchQueryBuilder();
-            //加上查询条件
+                //加上查询条件
             searchQueryBuilder.withQuery(queryBuilder);
 
             searchQueryBuilder.withPageable(PageRequest.of(1,1));

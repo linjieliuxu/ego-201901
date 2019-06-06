@@ -30,4 +30,6 @@ public interface GoodsApi {
 
     @GetMapping("/spuDetail/{spuId}")
     public ResponseEntity<SpuDetail> querySpuDetailBySpuId(@PathVariable("spuId")Long spuId);
+    @GetMapping("/spuBo/{spuId}")
+    public ResponseEntity<SpuBO> queryGoodsById(@PathVariable("spuId") Long spuId);
 }

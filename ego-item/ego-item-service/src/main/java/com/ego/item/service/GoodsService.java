@@ -130,4 +130,30 @@ public class GoodsService {
     public SpuDetail querySpuDetailBySpuId(Long spuId) {
         return spuDetailMapper.selectByPrimaryKey(spuId);
     }
+
+    public SpuBO queryGoodsById(Long spuId) {
+        SpuBO result = new SpuBO();
+        //查询spu，spuDetail ,skus
+        Spu spu =  spuMapper.selectByPrimaryKey(spuId);
+        //copy数据
+        BeanUtils.copyProperties(spu,result);
+
+        SpuDetail spuDetail = spuDetailMapper.selectByPrimaryKey(spuId);
+        result.setSpuDetail(spuDetail);
+
+        Sku sku = new Sku();
+        sku.setSpuId(spuId);
+
+        List<Sku> skus = skuMapper.select(sku);
+
+        result.setSkus(skus);
+
+        skus.forEach(s->{
+            Stock stock = stockMapper.selectByPrimaryKey(s.getId());
+            s.setStock(stock);
+        });
+
+
+        return result;
+    }
 }

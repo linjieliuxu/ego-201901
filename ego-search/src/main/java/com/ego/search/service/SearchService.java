@@ -402,4 +402,14 @@ public class SearchService {
         }).collect(Collectors.toList());
 
     }
+
+    /**
+     * 创建单个商品索引
+     * @param id
+     */
+    public void createIndex(Long id) {
+        SpuBO spuBO = goodsClient.queryGoodsById(id).getBody();
+        Goods goods = buildGoods(spuBO);
+        goodsRespository.save(goods);
+    }
 }

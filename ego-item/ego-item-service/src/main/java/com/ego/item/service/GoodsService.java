@@ -9,7 +9,9 @@ import com.ego.item.mapper.StockMapper;
 import com.ego.item.pojo.*;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.netflix.discovery.converters.Auto;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,6 +50,9 @@ public class GoodsService {
 
     @Autowired
     private StockMapper stockMapper;
+
+    @Autowired
+    private AmqpTemplate amqpTemplate;
 
     public PageResult<SpuBO> page(String key, Boolean saleable, Integer page, Integer rows) {
         PageHelper.startPage(page, rows);
@@ -114,6 +119,8 @@ public class GoodsService {
             });
         }
 
+        //发送消息到交换机(通知其他微服务)
+        amqpTemplate.convertAndSend("item.insert",spuBO.getId());
     }
 
     /**

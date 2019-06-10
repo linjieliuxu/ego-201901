@@ -11,6 +11,14 @@ spring:
     hikari:
       maximum-pool-size: 30
       minimum-idle: 10
+  rabbitmq:
+    host: 192.168.249.136
+    username: ego
+    password: ego
+    virtual-host: /ego
+    template:
+      exchange: ego.item.exchange
+    publisher-confirms: true
 eureka:
   client:
     service-url:

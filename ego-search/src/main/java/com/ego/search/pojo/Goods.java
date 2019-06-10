@@ -38,5 +38,4 @@ public class Goods {
     private String skus;// sku信息的json结构
     private Map<String, Object> specs;// 可搜索的规格参数，key是参数名，值是参数值
 
-
 }

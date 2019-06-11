@@ -12,6 +12,7 @@
         <module>ego-goods-web</module>
         <module>ego-user</module>
         <module>ego-sms</module>
+        <module>ego-auth</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

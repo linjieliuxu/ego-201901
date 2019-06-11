@@ -20,6 +20,7 @@ zuul:
   routes:
     item-service: /item/**
     search-service: /search/**
+    user-service: /user/**
   ignored-services:
     - upload-service # 忽略upload-service服务
 ribbon:

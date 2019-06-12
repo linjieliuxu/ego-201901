@@ -32,4 +32,12 @@ public interface GoodsApi {
     public ResponseEntity<SpuDetail> querySpuDetailBySpuId(@PathVariable("spuId")Long spuId);
     @GetMapping("/spuBo/{spuId}")
     public ResponseEntity<SpuBO> queryGoodsById(@PathVariable("spuId") Long spuId);
+
+    /**
+     * 根据skuid查询sku
+     * @param skuId
+     * @return
+     */
+    @GetMapping("/sku/{id}")
+    Sku querySkuById(@PathVariable("id") Long skuId);
 }

@@ -6,6 +6,7 @@ import com.ego.item.pojo.Sku;
 import com.ego.item.pojo.SpuDetail;
 import com.ego.item.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -90,5 +91,14 @@ public class GoodsController {
         }
 
         return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/sku/{id}")
+    public ResponseEntity<Sku> querySkuById(@PathVariable("id") Long skuId){
+        Sku sku=this.goodsService.querySkuById(skuId);
+        if (sku == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(sku);
     }
 }

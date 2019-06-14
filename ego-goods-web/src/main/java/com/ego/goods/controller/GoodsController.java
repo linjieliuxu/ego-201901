@@ -30,7 +30,7 @@ public class GoodsController {
         Map<String,Object> modelMap = goodsService.loadModel(id);
         model.addAllAttributes(modelMap);
         //异步生成静态页面
-        goodsService.buildStaticHmtl(modelMap,id);
+//        goodsService.buildStaticHmtl(modelMap,id);
         return "item";
     }
 }

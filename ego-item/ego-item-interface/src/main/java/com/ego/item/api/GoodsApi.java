@@ -7,6 +7,7 @@ import com.ego.item.pojo.SpuDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.CacheRequest;
 import java.util.List;
 
 
@@ -32,4 +33,6 @@ public interface GoodsApi {
     public ResponseEntity<SpuDetail> querySpuDetailBySpuId(@PathVariable("spuId")Long spuId);
     @GetMapping("/spuBo/{spuId}")
     public ResponseEntity<SpuBO> queryGoodsById(@PathVariable("spuId") Long spuId);
+    @GetMapping("/sku/{skuId}")
+    public ResponseEntity<Sku> querySkuBySkuId(@PathVariable("skuId")Long skuId);
 }

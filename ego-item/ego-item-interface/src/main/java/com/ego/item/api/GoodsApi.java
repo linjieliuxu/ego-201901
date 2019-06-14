@@ -1,5 +1,6 @@
 package com.ego.item.api;
 
+import com.ego.common.pojo.CartDto;
 import com.ego.common.pojo.PageResult;
 import com.ego.item.bo.SpuBO;
 import com.ego.item.pojo.Sku;
@@ -35,4 +36,11 @@ public interface GoodsApi {
     public ResponseEntity<SpuBO> queryGoodsById(@PathVariable("spuId") Long spuId);
     @GetMapping("/sku/{skuId}")
     public ResponseEntity<Sku> querySkuBySkuId(@PathVariable("skuId")Long skuId);
+
+    /**
+     * 减库存
+     * @param cartDTOS
+     */
+    @PostMapping("stock/decrease")
+    void decreaseStock(@RequestBody List<CartDto> cartDTOS);
 }

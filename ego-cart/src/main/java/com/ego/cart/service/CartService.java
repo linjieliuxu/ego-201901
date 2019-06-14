@@ -45,13 +45,13 @@ public class CartService {
         String skuId = cart.getSkuId().toString();
         Boolean hasKey = carts.hasKey(skuId);
         Integer num = cart.getNum();
-        //有->num累加
+
         if(hasKey)
         {
+            //有->num累加
             String json = carts.get(skuId).toString();
             cart = JsonUtils.parse(json,Cart.class);
             cart.setNum(cart.getNum()+num);
-
         }
         else
         {

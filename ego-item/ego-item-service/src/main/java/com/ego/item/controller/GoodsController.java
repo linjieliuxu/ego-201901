@@ -118,4 +118,11 @@ public class GoodsController {
         goodsService.decreaseStock(cartDtos);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
+
+    @PostMapping("stock/seckill/decrease")
+    public ResponseEntity<Void> decreaseSeckillStock(@RequestBody CartDto cartDTO){
+        goodsService.decreaseSeckillStock(cartDTO);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }

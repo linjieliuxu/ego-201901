@@ -15,6 +15,7 @@
         <module>ego-auth</module>
         <module>ego-cart</module>
         <module>ego-order</module>
+        <module>ego-seckill</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

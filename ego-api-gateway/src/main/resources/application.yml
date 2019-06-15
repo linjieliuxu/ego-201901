@@ -24,6 +24,7 @@ zuul:
     auth-service: /auth/**
     cart-service: /cart/**
     order-service: /order/**
+    seckill-service: /seckill/**
   ignored-services:
     - upload-service # 忽略upload-service服务
   add-host-header: true #携带请求真实的host头信息

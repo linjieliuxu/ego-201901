@@ -8,14 +8,13 @@ import com.ego.common.pojo.PageResult;
 import com.ego.common.utils.IdWorker;
 import com.ego.order.client.GoodsClient;
 import com.ego.order.dto.OrderStatusEnum;
+import com.ego.order.dto.PayStateEnum;
 import com.ego.order.filter.LoginInterceptor;
-import com.ego.order.mapper.OrderDetailMapper;
-import com.ego.order.mapper.OrderMapper;
-import com.ego.order.mapper.OrderStatusMapper;
-import com.ego.order.pojo.Order;
-import com.ego.order.pojo.OrderDetail;
-import com.ego.order.pojo.OrderStatus;
+import com.ego.order.mapper.*;
+import com.ego.order.pojo.*;
 import com.ego.order.utils.PayHelper;
+import com.ego.seckill.vo.SeckillGoods;
+import com.ego.seckill.vo.SeckillMessage;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +42,12 @@ public class OrderService {
 
     @Autowired
     private OrderStatusMapper orderStatusMapper;
+
+    @Autowired
+    private SeckillOrderMapper seckillOrderMapper;
+
+    @Autowired
+    private PayLogMapper payLogMapper;
 
     @Autowired
     private GoodsClient goodsClient;
@@ -198,5 +203,82 @@ public class OrderService {
 
     public void updateStatus(Long id, Integer status) {
         orderStatusMapper.updateStatus(id, status);
+    }
+
+
+    @Transactional
+    public Long createSeckillOrder(SeckillMessage seckillMessage) {
+        SeckillGoods seckillGoods = seckillMessage.getSeckillGoods();
+        Order order = new Order();
+        //生成订单ID，采用自己的算法生成订单ID
+        long orderId = idWorker.nextId();
+        order.setOrderId(orderId);
+
+        order.setCreateTime(new Date());
+        order.setPostFee(0L);
+        order.setActualPay(seckillGoods.getSeckillPrice());
+        order.setTotalPay(seckillGoods.getPrice());
+        order.setPaymentType(1);
+
+
+        //获取用户信息
+        UserInfo user = seckillMessage.getUserInfo();
+        order.setUserId(user.getId());
+        order.setBuyerNick(user.getUsername());
+        order.setBuyerRate(false);  //卖家为留言
+
+
+        //保存order
+        orderMapper.insertSelective(order);
+
+        //保存秒杀订单
+        SeckillOrder seckillOrder = new SeckillOrder();
+        seckillOrder.setOrderId(orderId);
+        seckillOrder.setSkuId(seckillGoods.getSkuId());
+        seckillOrder.setUserId(user.getId());
+        seckillOrderMapper.insertSelective(seckillOrder);
+
+        //保存detail
+        OrderDetail orderDetail = new OrderDetail();
+        orderDetail.setOrderId(orderId);
+        orderDetail.setImage(seckillGoods.getImage());
+        orderDetail.setPrice(seckillGoods.getSeckillPrice());
+        orderDetail.setNum(1);
+        orderDetail.setSkuId(seckillGoods.getSkuId());
+        orderDetail.setTitle(seckillGoods.getTitle());
+
+        orderDetailMapper.insert(orderDetail);
+
+
+        //填充orderStatus
+        OrderStatus orderStatus = new OrderStatus();
+        orderStatus.setOrderId(orderId);
+        orderStatus.setStatus(OrderStatusEnum.INIT.value());
+        orderStatus.setCreateTime(new Date());
+
+        //保存orderStatus
+        orderStatusMapper.insertSelective(orderStatus);
+
+        //保存支付日志
+        PayLog payLog = new PayLog();
+        payLog.setStatus(PayStateEnum.NOT_PAY.getValue());
+        payLog.setPayType(1);
+        payLog.setOrderId(orderId);
+        payLog.setTotalFee(seckillGoods.getSeckillPrice());
+        payLog.setCreateTime(new Date());
+        //获取用户信息
+        payLog.setUserId(user.getId());
+
+        payLogMapper.insertSelective(payLog);
+        //减库存
+        CartDto cartDto= new CartDto();
+        cartDto.setNum(orderDetail.getNum());
+        cartDto.setSkuId(orderDetail.getSkuId());
+        goodsClient.decreaseSeckillStock(cartDto);
+
+
+
+        log.info("生成订单，订单编号：{}，用户id：{}", orderId, user.getId());
+        return orderId;
     }
 }

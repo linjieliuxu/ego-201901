@@ -181,4 +181,12 @@ public class GoodsService {
             }
         }
     }
+
+    @Transactional
+    public void decreaseSeckillStock(CartDto cartDto) {
+        int count = stockMapper.decreaseSeckillStock(cartDto.getSkuId(), cartDto.getNum());
+        if (count != 1) {
+            throw new PayException(ExceptionEnum.STOCK_NOT_ENOUGH);
+        }
+    }
 }

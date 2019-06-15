@@ -96,5 +96,11 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.ego.seckill</groupId>
+            <artifactId>ego-seckill-interface</artifactId>
+            <version>${ego.latest.version}</version>
+        </dependency>
     </dependencies>
 </project>

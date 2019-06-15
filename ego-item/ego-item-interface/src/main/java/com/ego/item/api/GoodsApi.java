@@ -43,4 +43,11 @@ public interface GoodsApi {
      */
     @PostMapping("stock/decrease")
     void decreaseStock(@RequestBody List<CartDto> cartDTOS);
+
+    /**
+     * 减库存
+     * @param cartDTO
+     */
+    @PostMapping("stock/seckill/decrease")
+    void decreaseSeckillStock(@RequestBody CartDto cartDTO);
 }

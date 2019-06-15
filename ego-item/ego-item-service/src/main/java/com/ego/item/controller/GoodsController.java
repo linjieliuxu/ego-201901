@@ -1,11 +1,13 @@
 package com.ego.item.controller;
 
+import com.ego.common.pojo.CartDto;
 import com.ego.common.pojo.PageResult;
 import com.ego.item.bo.SpuBO;
 import com.ego.item.pojo.Sku;
 import com.ego.item.pojo.SpuDetail;
 import com.ego.item.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -104,5 +106,16 @@ public class GoodsController {
         }
 
         return ResponseEntity.ok(sku);
+    }
+
+    /**
+     * 减库存
+     * @param cartDtos
+     * @return
+     */
+    @PostMapping("stock/decrease")
+    public ResponseEntity<Void> decreaseStock(@RequestBody List<CartDto> cartDtos){
+        goodsService.decreaseStock(cartDtos);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
